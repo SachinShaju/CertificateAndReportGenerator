@@ -3,6 +3,7 @@ from docx import Document
 from docx.shared import Pt, RGBColor
 from docx2pdf import convert
 import yagmail
+import os
 
 app = Flask(__name__)
 
@@ -160,9 +161,9 @@ def generate_report():
     # Save the Word document
     doc.save('report.docx')
 
-    if (send_file('report.docx', as_attachment=True)):
+    if os.path.exists('report.docx'):
         # Send the file as a response
-        return render_template('success.html')
+        return send_file('report.docx', as_attachment=True)
     else:
         return render_template('error.html')
 
